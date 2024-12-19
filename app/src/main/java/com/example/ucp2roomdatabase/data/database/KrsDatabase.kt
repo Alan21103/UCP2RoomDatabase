@@ -9,7 +9,7 @@ import com.example.ucp2roomdatabase.data.dao.MataKuliahDao
 import com.example.ucp2roomdatabase.data.entity.Dosen
 import com.example.ucp2roomdatabase.data.entity.MataKuliah
 
-@Database(entities = [Dosen::class], [MataKuliah::class],version = 1, exportSchema = false)
+@Database(entities = [Dosen::class, MataKuliah::class], version = 1, exportSchema = false)
 abstract class KrsDatabase: RoomDatabase() {
 
     abstract fun dosenDao(): DosenDao
