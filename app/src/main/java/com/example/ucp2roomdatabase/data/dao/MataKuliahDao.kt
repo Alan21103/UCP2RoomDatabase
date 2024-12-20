@@ -1,5 +1,6 @@
 package com.example.ucp2roomdatabase.data.dao
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
@@ -7,6 +8,7 @@ import androidx.room.Update
 import com.example.ucp2roomdatabase.data.entity.MataKuliah
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface MataKuliahDao {
     @Insert
     suspend fun insertMatkul(
