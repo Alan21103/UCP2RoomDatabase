@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ucp2roomdatabase.data.entity.Dosen
 import com.example.ucp2roomdatabase.data.entity.MataKuliah
 
 
@@ -32,7 +33,7 @@ import com.example.ucp2roomdatabase.data.entity.MataKuliah
 
 @Composable
 fun CardDosen (
-    mk: MataKuliah,
+    dsn: Dosen,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { }
 ) {
@@ -52,7 +53,7 @@ fun CardDosen (
                 Icon(imageVector = Icons.Filled.Person, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
-                    text = mk.kode,
+                    text = dsn.nidn,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -64,7 +65,7 @@ fun CardDosen (
                 Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
-                    text = mk.kode,
+                    text = dsn.nama,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
@@ -76,7 +77,7 @@ fun CardDosen (
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
-                    text = mk.sks,
+                    text = dsn.jenisKelamin,
                     fontWeight = FontWeight.Bold,
                 )
             }
