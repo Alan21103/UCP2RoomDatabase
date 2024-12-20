@@ -2,10 +2,16 @@ package com.example.ucp2roomdatabase.ui.view.dosen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -16,26 +22,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2roomdatabase.ui.customewidget.TopAppBar
-import com.example.ucp2roomdatabase.ui.view.matakuliah.FormMataKuliah
-import com.example.ucp2roomdatabase.ui.view.matakuliah.InsertBodyMK
+import com.example.ucp2roomdatabase.ui.navigation.AlamatNavigasi
 import com.example.ucp2roomdatabase.ui.viewmodel.dosen.DosenEvent
+import com.example.ucp2roomdatabase.ui.viewmodel.dosen.DosenUIState
 import com.example.ucp2roomdatabase.ui.viewmodel.dosen.DosenViewModel
-import com.example.ucp2roomdatabase.ui.viewmodel.dosen.HomeUiState
+import com.example.ucp2roomdatabase.ui.viewmodel.dosen.FormErrorState
 import com.example.ucp2roomdatabase.ui.viewmodel.dosen.PenyediaDosenViewModel
-import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.FormErrorState
-import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.MKUIState
-import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.MataKuliahEvent
-import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.MataKuliahViewModel
-import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.PenyediaMKViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
+
+object DestinasiDosenInsert : AlamatNavigasi {
+    override val route = "insert_dsn"
+}
 @Composable
 fun InsertDosenView(
     onBack: () -> Unit,
@@ -58,37 +62,30 @@ fun InsertDosenView(
 
     Scaffold(
         modifier = modifier,
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        topBar = {
-            TopAppBar(
-                onBack = onBack,
-                showBackButton = true,
-                judul = "Tambah MataKuliah",
-                modifier = modifier
-            )
-        }
-    ) { padding ->
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) {padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
-        ) {
+        ){
+            TopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah Dosen",
+                modifier = Modifier
+            )
             InsertBodyDosen(
                 uiState = uiState,
-                onValueChange = { updateEvent ->
-                    viewModel.updateState(updateEvent)
+                onValueChange = {updatedEvent->
+                    viewModel.updateState(updatedEvent)
                 },
                 onClick = {
                     coroutineScope.launch {
-                        if (viewModel.validateFields()) {
-                            viewModel.saveData()
-                            delay(500)
-                            withContext(Dispatchers.Main) {
-                                onNavigate()
-                            }
-                        }
+                        viewModel.saveData()
                     }
+                    onNavigate()
                 }
             )
         }
@@ -100,7 +97,7 @@ fun InsertDosenView(
 fun InsertBodyDosen(
     modifier: Modifier = Modifier,
     onValueChange: (DosenEvent) -> Unit,
-    uiState: HomeUiState,
+    uiState: DosenUIState,
     onClick: () -> Unit
 ) {
     Column(
@@ -123,14 +120,73 @@ fun InsertBodyDosen(
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun FormDosen(
-    DosenEvent: DosenEvent = DosenEvent(),
+    dosenEvent: DosenEvent = DosenEvent(),
     onValueChange: (DosenEvent) -> Unit = {},
     errorState: FormErrorState = FormErrorState(),
     modifier: Modifier = Modifier
 ){
+    val jenisKelamin = listOf("Laki-Laki", "Perempuan")
 
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = dosenEvent.nama,
+            onValueChange = {
+                onValueChange(dosenEvent.copy(nama = it))
+            },
+            label = { Text("Nama") },
+            isError = errorState.nama != null,
+            placeholder = { Text("Masukkan Nama Dosen") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+        Text(
+            text = errorState.nama ?: "",
+            color = Color.Red
+        )
 
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = dosenEvent.nidn,
+            onValueChange = {
+                onValueChange(dosenEvent.copy(nidn = it))
+            },
+            label = { Text("NIDN") },
+            isError = errorState.nidn != null,
+            placeholder = { Text("Masukkan NIDN") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+        Text(
+            text = errorState.nama ?: "",
+            color = Color.Red
+        )
+
+        Text(text = "Jenis Kelamin")
+        Row(
+            modifier = Modifier.fillMaxWidth()
+
+        ) {
+            jenisKelamin.forEach { jk ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    RadioButton(
+                        selected = dosenEvent.jenisKelamin == jk,
+                        onClick = {
+                            onValueChange(dosenEvent.copy(jenisKelamin = jk))
+                        },
+                    )
+                    Text(
+                        text = jk,
+                    )
+                }
+            }
+        }
+    }
 }
