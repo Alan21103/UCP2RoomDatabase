@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -20,16 +22,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ucp2roomdatabase.data.entity.Dosen
 import com.example.ucp2roomdatabase.data.entity.MataKuliah
+import com.example.ucp2roomdatabase.ui.view.matakuliah.CardMK
 
 
 
+@Composable
+fun ListDosen (
+    listDsn: List<Dosen>,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit = { }
+) {
+    LazyColumn(
+        modifier = modifier
 
-
-
-
-
-
-
+    ) {
+        items(
+            items = listDsn,
+            itemContent = { dsn ->
+                CardDosen(
+                    dsn = dsn,
+                    onClick = { onClick(dsn.nidn) }
+                )
+            }
+        )
+    }
+}
 
 @Composable
 fun CardDosen (
