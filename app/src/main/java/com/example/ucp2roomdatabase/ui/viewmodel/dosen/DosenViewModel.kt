@@ -4,9 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.ucp2roomdatabase.data.entity.Dosen
 import com.example.ucp2roomdatabase.repository.RepositoryDosen
-import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.FormErrorState
+import kotlinx.coroutines.launch
 
 class DosenViewModel(private val repositoryDosen: RepositoryDosen) : ViewModel() {
     var uiState by mutableStateOf(DosenUIState())
@@ -29,11 +30,38 @@ class DosenViewModel(private val repositoryDosen: RepositoryDosen) : ViewModel()
         uiState = uiState.copy(isEntryValid = errorState)
         return errorState.isValid()
     }
+    fun saveData() {
+        val currentEvent = uiState.dosenEvent
+        if(validateField()){
+            viewModelScope.launch {
+                try{
+                    repositoryDosen.insertDosen(currentEvent.toDosenEntity())
+                    uiState = uiState.copy(
+                        snackBarMessage = "data berhasil disimpan",
+                        dosenEvent = DosenEvent(),
+                        isEntryValid = FormErrorState()
+                    )
+                }catch (e: Exception){
+                    uiState = uiState.copy(
+                        snackBarMessage = "data gagal disimpan"
+                    )
+                }
+            }
+        }else{
+            uiState=uiState.copy(
+                snackBarMessage = "Input tidak valid periksa kembali data anda"
+            )
+        }
+    }
+    //reset pesan snackbar
+    fun resetSnackBarMessage(){
+        uiState=uiState.copy(snackBarMessage = null)
+    }
 }
 
 data class DosenUIState(
     val dosenEvent: DosenEvent = DosenEvent(),
-    val isEntryValid:FormErrorState = FormErrorState(),
+    val isEntryValid: FormErrorState = FormErrorState(),
     val snackBarMessage: String? = null,
 )
 data class FormErrorState(
