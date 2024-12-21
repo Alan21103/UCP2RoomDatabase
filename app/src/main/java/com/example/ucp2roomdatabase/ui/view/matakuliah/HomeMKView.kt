@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -192,7 +193,7 @@ fun CardMK (
                 modifier = Modifier. fillMaxWidth (),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
+                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.kode,
@@ -204,10 +205,10 @@ fun CardMK (
                 modifier = Modifier. fillMaxWidth (),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
+                Icon(imageVector = Icons.Filled.Info, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
-                    text = mk.kode,
+                    text = mk.nama,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
@@ -216,7 +217,7 @@ fun CardMK (
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.Home, contentDescription = "")
+                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.sks,
