@@ -1,5 +1,6 @@
 package com.example.ucp2roomdatabase.ui.view.matakuliah
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -28,10 +30,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2roomdatabase.R
 import com.example.ucp2roomdatabase.data.entity.MataKuliah
 import com.example.ucp2roomdatabase.ui.customewidget.TopAppBar
 import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.DetailMKViewModel
@@ -50,6 +54,7 @@ fun DetailMKView (
     Scaffold (
         modifier= Modifier
             .fillMaxSize()
+            .background(color = colorResource(id = R.color.purple_500))
             .padding(16.dp)
             .padding(top = 18.dp),
         topBar = {
@@ -75,6 +80,12 @@ fun DetailMKView (
             }
         }
     ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.purple_500))
+                .padding(innerPadding)
+        )
         val detailUiState by viewModel.detailUiState.collectAsState()
 
         BodyDetailMK(
@@ -117,12 +128,18 @@ fun BodyDetailMK (
                 )
                 Spacer(modifier = Modifier.padding(8.dp))
                 Button(
+
                     onClick = {
                         deleteConfirmationRequired = true
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color(0xFF276AA3)
+                    )
+
                 ) {
-                    Text(text = "Delete")
+                    Text(text = "Delete", fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 }
                 if (deleteConfirmationRequired) {
                     DeleteConfirmationDialog(
