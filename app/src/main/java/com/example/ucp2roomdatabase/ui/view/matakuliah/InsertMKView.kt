@@ -1,5 +1,6 @@
 package com.example.ucp2roomdatabase.ui.view.matakuliah
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -27,9 +29,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2roomdatabase.R
 import com.example.ucp2roomdatabase.data.entity.Dosen
 import com.example.ucp2roomdatabase.ui.customewidget.TopAppBar
 import com.example.ucp2roomdatabase.ui.navigation.AlamatNavigasi
@@ -73,7 +78,9 @@ fun InsertMKView(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .background(color = colorResource(id = R.color.purple_500))
+            .fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(
@@ -86,6 +93,7 @@ fun InsertMKView(
     ) { padding ->
         Column(
             modifier = Modifier
+                .background(color = colorResource(id = R.color.purple_500))
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
@@ -167,9 +175,10 @@ fun FormMataKuliah(
             onValueChange = {
                 onValueChange(mataKuliahEvent.copy(kode = it))
             },
-            label = { Text("Kode MK") },
+            label = { Text("Kode MK", color = Color.White) },
             isError = errorState.kode !=null,
-            placeholder = { Text("Masukkan Kode MataKuliah") },
+            textStyle = TextStyle(color = Color.White),
+            placeholder = { Text("Masukkan Kode MataKuliah", color = Color.White) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
         Text(
@@ -183,9 +192,10 @@ fun FormMataKuliah(
             onValueChange = {
                 onValueChange(mataKuliahEvent.copy(nama = it))
             },
-            label = { Text("Nama") },
+            label = { Text("Nama", color = Color.White) },
             isError = errorState.nama !=null,
-            placeholder = { Text("Masukkan Nama MataKuliah") },
+            textStyle = TextStyle(color = Color.White),
+            placeholder = { Text("Masukkan Nama MataKuliah", color = Color.White) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
         Text(
@@ -201,9 +211,10 @@ fun FormMataKuliah(
             onValueChange = {
                 onValueChange(mataKuliahEvent.copy(sks = it))
             },
-            label = { Text("SKS") },
+            label = { Text("SKS", color = Color.White) },
+            textStyle = TextStyle(color = Color.White),
             isError = errorState.sks !=null,
-            placeholder = { Text("Masukkan SKS MataKuliah") },
+            placeholder = { Text("Masukkan SKS MataKuliah", color = Color.White) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Text(
@@ -213,7 +224,7 @@ fun FormMataKuliah(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = "Jenis")
+        Text(text = "Jenis", color = Color.White)
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -223,12 +234,13 @@ fun FormMataKuliah(
                     horizontalArrangement = Arrangement.Start
                 ) {
                     RadioButton(
+                        colors = RadioButtonDefaults.colors(colorResource(id = R.color.white)) ,
                         selected = mataKuliahEvent.jenis == jenisOption,
                         onClick = {
                             onValueChange(mataKuliahEvent.copy(jenis = jenisOption))
                         },
                     )
-                    Text(text = jenisOption)
+                    Text(text = jenisOption, color = Color.White)
                 }
             }
         }
@@ -245,9 +257,10 @@ fun FormMataKuliah(
             onValueChange = {
                 onValueChange(mataKuliahEvent.copy(semester = it))
             },
-            label = { Text("Semester") },
+            label = { Text("Semester", color = Color.White) },
             isError = errorState.semester !=null,
-            placeholder = { Text("Masukkan Semester MataKuliah") },
+            textStyle = TextStyle(color = Color.White),
+            placeholder = { Text("Masukkan Semester MataKuliah", color = Color.White) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
         Text(
@@ -257,8 +270,9 @@ fun FormMataKuliah(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = "Dosen Pengampu")
+        Text(text = "Dosen Pengampu", color = Color.White)
         DynamicSelectedTextField(
+            modifier = Modifier,
             selectedValue = mataKuliahEvent.dosenPengampu,
             options = namaDosenList,
             label = "Pilih Dosen Pengampu",
