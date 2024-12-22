@@ -1,5 +1,6 @@
 package com.example.ucp2roomdatabase.ui.view.dosen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,10 +19,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2roomdatabase.R
 import com.example.ucp2roomdatabase.data.entity.Dosen
 import com.example.ucp2roomdatabase.ui.customewidget.TopAppBar
 import com.example.ucp2roomdatabase.ui.viewmodel.dosen.DetailDosenViewModel
@@ -38,6 +41,7 @@ fun DetailDosenView(
     Scaffold(
         modifier= Modifier
             .fillMaxSize()
+            .background(color = colorResource(id = R.color.purple_500))
             .padding(16.dp)
             .padding(top = 18.dp),
         topBar = {
@@ -49,6 +53,12 @@ fun DetailDosenView(
             )
         },
     ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.purple_500))
+                .padding(innerPadding)
+        )
         val detailDosenUiState by viewModel.detailUiState.collectAsState()
 
         BodyDetailDosen(
