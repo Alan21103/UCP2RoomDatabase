@@ -1,5 +1,6 @@
 package com.example.ucp2roomdatabase.ui.view.matakuliah
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,11 +33,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2roomdatabase.R
 import com.example.ucp2roomdatabase.data.entity.MataKuliah
 import com.example.ucp2roomdatabase.ui.customewidget.TopAppBar
 import com.example.ucp2roomdatabase.ui.viewmodel.matakuliah.HomeMKViewModel
@@ -54,6 +57,7 @@ fun HomeMKView(
 ){
     Scaffold(
         modifier= Modifier
+            .background(color = colorResource(R.color.purple_500))
             .fillMaxSize()
             .padding(16.dp)
             .padding(top = 18.dp),
@@ -78,6 +82,12 @@ fun HomeMKView(
             }
         }
     ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.purple_500))
+                .padding(innerPadding)
+        )
         val homeUiState by viewModel.homeUiState.collectAsState()
 
         BodyHomeMKView(
