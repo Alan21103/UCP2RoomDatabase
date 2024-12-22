@@ -1,5 +1,6 @@
 package com.example.ucp2roomdatabase.ui.view.dosen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,17 +10,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -31,10 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2roomdatabase.R
 import com.example.ucp2roomdatabase.data.entity.Dosen
 import com.example.ucp2roomdatabase.ui.customewidget.TopAppBar
 import com.example.ucp2roomdatabase.ui.viewmodel.dosen.HomeDosenViewModel
@@ -51,32 +54,41 @@ fun HomeDosenView(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        modifier= Modifier
+        modifier = Modifier
             .fillMaxSize()
+            .background(color = colorResource(id = R.color.purple_500))
             .padding(16.dp)
             .padding(top = 18.dp),
-
         topBar = {
             TopAppBar(
                 judul = "Daftar Dosen",
                 showBackButton = true,
                 onBack = onBack,
-                modifier = modifier
+                modifier = Modifier
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onAddDosen,
-                shape = MaterialTheme.shapes.medium,
+                shape = RoundedCornerShape(50), // Membuat FAB berbentuk lingkaran
+                containerColor = Color(0xFF276AA3), // Warna biru terang dari tema
+                contentColor = Color.White,
                 modifier = Modifier.padding(16.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Tambah Dosen"
+                    contentDescription = "Tambah Dosen",
+                    tint = Color.White
                 )
             }
         }
     ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.purple_500))
+                .padding(innerPadding)
+        ){
         val homeUiState by viewModel.homeUiState.collectAsState()
 
         BodyHomeDosenView(
@@ -85,8 +97,7 @@ fun HomeDosenView(
                 onDetailClick(it)
                 println(it)
             },
-            modifier = Modifier.padding(innerPadding)
-        )
+        ) }
     }
 }
 
@@ -102,7 +113,10 @@ fun BodyHomeDosenView (
         homeUiState.isLoading -> {
             // Menampilkan indikator loading
             Box(
-                modifier = modifier.fillMaxSize(),
+                modifier = modifier
+                    .background(color = colorResource(id = R.color.purple_500)
+                    )
+                    .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -123,7 +137,10 @@ fun BodyHomeDosenView (
         homeUiState.listDsn.isEmpty() -> {
             // Menampilkan pesan jika data kosong
             Box(
-                modifier = modifier.fillMaxSize(),
+                modifier = modifier
+                    .background(color = colorResource(id = R.color.purple_500)
+                    )
+                    .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -159,7 +176,11 @@ fun ListDosen (
 ) {
     LazyColumn(
         modifier = modifier
-
+            .fillMaxSize()
+            .background(
+                color = colorResource(id = R.color.purple_500
+                )
+            )
     ) {
         items(
             items = listDsn,
@@ -186,7 +207,8 @@ fun CardDosen (
             .padding(8.dp)
     ){
         Column (
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier
+                .padding(8.dp)
         ){
             Row (
                 modifier = Modifier. fillMaxWidth (),
